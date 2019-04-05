@@ -1,0 +1,55 @@
+@import '../../assets/styles/colors';
+@import '../../assets/styles/media';
+
+.header {
+  position: relative;
+
+  .appBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 30px;
+    background-color: $black;
+  }
+
+  .actions {
+    display: flex;
+  }
+
+  .searchBlock {
+    margin-right: 24px;
+  }
+
+  .burgerButton {
+    color: $white;
+    display: none;
+
+    svg {
+      font-size: 28px;
+    }
+  }
+
+  .navigation {
+    margin-top: 0;
+  }
+
+  @media only screen and (max-width: $md) {
+    .appBar {
+      padding: 0 10px;
+    }
+
+    .actions {
+      display: none;
+    }
+
+    .searchBlock {
+      display: none;
+    }
+
+    .burgerButton {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+.videoItem {
+  animation: fadein 1s;
+  padding: 8px;
+
+  .cardActionArea {
+    position: relative;
+  }
+
+  .cardMedia {
+    height: 200px;
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: 500;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 8px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .videoDuration {
+    position: absolute;
+    top: 170px;
+    right: 0;
+  }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

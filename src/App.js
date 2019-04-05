@@ -1,28 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
+
+import store from './redux/store';
+import Header from './components/Header/Header';
+import Trends from './containers/Trends/Trends';
+import Library from './containers/Library/Library';
+import VideoSearch from './containers/VideoSearch/VideoSearch';
+import SnackBarContainer from './containers/SnackBarContainer/SnackBarContainer';
+import VideoModalContainer from './containers/VideoModalContainer/VideoModalContainer';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <Router>
+                    <Header />
+                    <VideoModalContainer />
+                    <SnackBarContainer />
+
+                    <Route exact path="/" render={() => <Redirect to="/trends" />} />
+                    <Route path="/trends" exact component={Trends} />
+                    <Route path="/library" exact component={Library} />
+                    <Route path="/search" exact component={VideoSearch} />
+                </Router>
+            </Provider>
+        );
+    }
 }
 
 export default App;

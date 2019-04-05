@@ -1,0 +1,11 @@
+@import '../../../assets/styles/colors';
+
+.videoDuration {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  font-size: 12px;
+  padding: 8px;
+  background-color: $black;
+  color: $white;
+}

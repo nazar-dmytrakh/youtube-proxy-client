@@ -1,0 +1,27 @@
+@import '../../assets/styles/colors';
+
+.snackbarContent {
+  &.success {
+    background-color: $green;
+
+  }
+
+  &.error {
+    background-color: $red;
+  }
+
+  svg {
+    color: $white;
+
+    &.typeIcon {
+      margin-right: 16px;
+    }
+  }
+
+  .contentWrapper {
+    display: flex;
+    align-items: center;
+    color: $white;
+    font-size: 14px;
+  }
+}
