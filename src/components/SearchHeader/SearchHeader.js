@@ -5,7 +5,7 @@ import style from './style.module.scss';
 
 const SearchHeader = ({ name }) => (
   <div className={style.searchHeader}>
-      Search result for: "<span>{name}</span>"
+      Search result for: <span>{name}</span>
   </div>
 );
 

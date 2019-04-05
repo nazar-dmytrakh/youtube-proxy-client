@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { AppBar, IconButton } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
 
 import style from './style.module.scss';
-import Logo from './Logo/Logo';
 import Navigation from './Navigation/Navigation';
 import SearchBlock from './SearchBlock/SearchBlock';
 import MobileNavigation from './MobileNavigation/MobileNavigation';
@@ -43,7 +42,7 @@ class Header extends Component {
         return (
             <div className={style.header}>
                 <AppBar position="static" className={style.appBar} color="primary">
-                    <Logo />
+                    <Link className={style.logo} to="/">V-LIBRARY</Link>
                     <IconButton onClick={this.toggleSidebar} className={style.burgerButton}>
                         <MenuIcon />
                     </IconButton>

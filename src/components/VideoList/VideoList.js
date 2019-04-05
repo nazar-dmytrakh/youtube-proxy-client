@@ -7,8 +7,8 @@ import VideoItem from './VideoItem/VideoItem';
 import VideoEmptyState from './VideoEmptyState/VideoEmptyState';
 
 const renderVideoList = ({ data, onSaveVideo, onDeleteVideo, onOpenVideo }) => (
-    data.map(({ id, title, thumbnailUrl, saved, duration }) => (
-        <Grid key={id} xs={12} sm={4} md={3} item>
+    data.map(({ id, title, thumbnailUrl, saved, duration }, index) => (
+        <Grid key={`id-${index}`} xs={12} sm={4} md={3} item>
             <VideoItem
                 onDeleteVideo={onDeleteVideo(id)}
                 onSaveVideo={onSaveVideo(id)}

@@ -5,7 +5,7 @@ import {
     FETCH_SAVED_VIDEOS_SUCCESS,
     OPEN_VIDEO_MODAL,
 } from './actionTypes';
-import { openSnackBarAction } from './notificationActions';
+import {closeSnackBarAction, openSnackBarAction} from './notificationActions';
 
 export const fetchSavedVideosSuccessAction = data => (
     {
@@ -33,14 +33,18 @@ export const fetchSavedVideos = () => async (dispatch) => {
     dispatch(fetchSavedVideosSuccessAction(items));
 };
 
-export const saveVideo = id => async (dispatch) => {
+export const saveVideo = id => async (dispatch, getState) => {
+    const { notification: { isSnackBarOpen } } = getState();
+    if (isSnackBarOpen) dispatch(closeSnackBarAction());
     await httpService.saveVideo(id);
-    dispatch(openSnackBarAction('Video has been successfully saved!'));
+    dispatch(openSnackBarAction({ message: 'Video has been successfully saved!' }));
     fetchSavedVideos()(dispatch);
 };
 
-export const deleteVideo = id => async (dispatch) => {
+export const deleteVideo = id => async (dispatch, getState) => {
+    const { notification: { isSnackBarOpen } } = getState();
+    if (isSnackBarOpen) dispatch(closeSnackBarAction());
     await httpService.deleteVideo(id);
-    dispatch(openSnackBarAction('Video has been successfully deleted!'));
+    dispatch(openSnackBarAction({ message: 'Video has been successfully deleted!' }));
     fetchSavedVideos()(dispatch);
 };

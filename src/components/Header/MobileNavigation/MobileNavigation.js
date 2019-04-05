@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Drawer, List, ListItem } from '@material-ui/core';
 
 import style from './style.module.scss';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const MobileNavigation = ({ isOpen, onClose }) => (
     <Drawer anchor="right" open={isOpen} onClose={onClose}>

@@ -5,6 +5,9 @@
   padding: 30px 30px 40px;
   font-size: 48px;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 
   &:before {
     position: absolute;

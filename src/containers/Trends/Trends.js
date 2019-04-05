@@ -5,7 +5,9 @@ import InfiniteScroll from 'react-infinite-scroller';
 import VideoList from '../../components/VideoList/VideoList';
 import Spinner from '../../components/Spinner/Spinner';
 import httpService from '../../services/httpService';
-import { openVideoModalAction, saveVideo } from '../../redux/actions/videoActions';
+import { deleteVideo, openVideoModalAction, saveVideo } from '../../redux/actions/videoActions';
+import { openSnackBarAction } from '../../redux/actions/notificationActions';
+import SnackBar from '../../components/SnackBar/SnackBar';
 
 class Trends extends Component {
     state = {
@@ -13,6 +15,7 @@ class Trends extends Component {
         nextPageToken: '',
         isLoading: false,
         initialLoad: false,
+        hasMore: true,
     };
 
     componentDidMount() {
@@ -27,44 +30,50 @@ class Trends extends Component {
     async fetchData() {
         const { videos, nextPageToken: savedNextPageToken } = this.state;
         this.setState({ isLoading: true });
-        const { data: { items, nextPageToken } } = await httpService.fetchTrendVideos({ params: { page: savedNextPageToken } });
-        this.setState({ videos: [...videos, ...items], nextPageToken, isLoading: false });
+
+        try {
+            const { data: { items, nextPageToken } } = await httpService.fetchTrendVideos({ params: { page: savedNextPageToken } });
+            this.setState({ videos: [...videos, ...items], nextPageToken, isLoading: false, hasMore: !!items.length });
+        } catch ({ message }) {
+            this.setState({ hasMore: false, isLoading: false });
+            this.props.onError({ message, type: SnackBar.TYPE.ERROR });
+        }
     };
 
-    handleLoadMore = () => {
-        const { isLoading } = this.state;
-
-        if (isLoading) return false;
-        this.fetchData();
-    };
+    handleLoadMore = () => (
+        !this.state.isLoading ? this.fetchData() : null
+    );
 
     handleSaveVideo = videoId => () => {
         this.props.saveVideo(videoId);
-        const newVideos = this.state.videos.map(({ id, saved , ...rest }) => {
-            const result = { id, saved, ...rest };
-
-            if (videoId === id && !saved) result.saved = true;
-            return result;
-        });
-
-        this.setState({ videos: newVideos });
+        const { videos } = this.state;
+        const index = videos.findIndex(({ id }) => id === videoId);
+        videos[index].saved = true;
+        this.setState({ videos });
     };
 
     handleOpenVideo = id => () => this.props.openVideoModalAction(id);
 
+    handleDeleteVideo = videoId => () => {
+        this.props.deleteVideo(videoId);
+        const { videos } = this.state;
+        const index = videos.findIndex(({ id }) => id === videoId);
+        videos[index].saved = false;
+        this.setState({ videos });
+    };
+
     render() {
-        const { videos, initialLoad, isLoading } = this.state;
+        const { videos, initialLoad, isLoading, hasMore } = this.state;
 
         return (
             <div>
                 {!initialLoad && isLoading && <Spinner pageView />}
                 {
                     initialLoad &&
-                        <InfiniteScroll loader={<Spinner key="spinner" />} hasMore loadMore={this.handleLoadMore}>
-                            <VideoList onOpenVideo={this.handleOpenVideo} onSaveVideo={this.handleSaveVideo} data={videos} />
+                        <InfiniteScroll loader={<Spinner key="spinner" />} hasMore={hasMore} loadMore={this.handleLoadMore}>
+                            <VideoList onDeleteVideo={this.handleDeleteVideo} onOpenVideo={this.handleOpenVideo} onSaveVideo={this.handleSaveVideo} data={videos} />
                         </InfiniteScroll>
                 }
-
             </div>
         );
     }
@@ -72,7 +81,9 @@ class Trends extends Component {
 
 const mapDispatchToProps = {
     saveVideo,
+    deleteVideo,
     openVideoModalAction: videoId => openVideoModalAction(videoId),
+    onError: data => openSnackBarAction(data),
 };
 
 export default connect(null, mapDispatchToProps)(Trends);

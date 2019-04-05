@@ -4,7 +4,6 @@ import moment from 'moment';
 import { Card, CardActionArea, CardMedia, CardContent, CardActions, Button } from '@material-ui/core';
 
 import style from './style.module.scss';
-import VideoDuration from '../VideoDuration/VIdeoDuration';
 
 const formatDuration = duration => moment.utc(moment.duration(duration).asMilliseconds()).format("HH:mm:ss");
 
@@ -20,7 +19,7 @@ const VideoItem = ({ title, photoUrl, onSaveVideo, onDeleteVideo, allowDelete, a
                 <CardContent>
                     <div className={style.title}>{title}</div>
                 </CardContent>
-                <VideoDuration duration={formatDuration(duration)} className={style.videoDuration} />
+                <div className={style.videoDuration}>{formatDuration(duration)}</div>
             </CardActionArea>
             <CardActions>
                 {

@@ -8,13 +8,14 @@ const SnackBarContainer = props => (
     <SnackBar {...props} />
 );
 
-const mapStateToProps = ({ notification: { isSnackBarOpen, snackBarMessage } }) => ({
+const mapStateToProps = ({ notification: { isSnackBarOpen, snackBarMessage, snackBarType } }) => ({
     open: isSnackBarOpen,
     message: snackBarMessage,
+    type: snackBarType,
 });
 
 const mapDispatchToProps = {
     onClose: closeSnackBarAction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SnackBarContainer) ;
+export default connect(mapStateToProps, mapDispatchToProps)(SnackBarContainer);
