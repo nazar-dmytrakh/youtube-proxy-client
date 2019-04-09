@@ -3,7 +3,7 @@
 ### `npm start`
 
 Runs the app on port 3000<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.<br
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.<br>
 
 ## Requirements
 Started server on http://localhost:3001 
